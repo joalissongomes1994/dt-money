@@ -7,7 +7,7 @@ export const TransactionsContainer = styled.main`
   padding: 0 1.5rem;
 `
 
-export const TransactionsTable= styled.table`
+export const TransactionsTable = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 0.5rem;
@@ -33,7 +33,7 @@ interface PriceHighLightProps {
   variant: 'income' | 'outcome'
 }
 
-export const PriceHighLight= styled.span<PriceHighLightProps>`
+export const PriceHighLight = styled.span<PriceHighLightProps>`
   color: ${(props) => props.variant === 'income' 
     ? props.theme["green-300"]
     : props.theme["red-300"]
