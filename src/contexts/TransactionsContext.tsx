@@ -1,17 +1,19 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { api } from "../lib/axios";
+import { createContext, ReactNode, useEffect, useState } from 'react'
+import { api } from '../lib/axios'
 
 interface Transaction {
   id: number
-  description: string,
-  type: "income" | "outcome",
-  category: string,
-  price: number,
+  description: string
+  type: 'income' | 'outcome'
+  category: string
+  price: number
   createdAt: string
 }
 
+type CreateTransactionInput = Omit<Transaction, 'id' | 'createdAt'>
+
 interface TransactionsContextType {
-  transactions: Transaction[],
+  transactions: Transaction[]
   fetchTransaction: (query?: string) => Promise<void>
   createTransaction: (data: CreateTransactionInput) => Promise<void>
 }
@@ -20,11 +22,9 @@ interface TransactionsContextProps {
   children: ReactNode
 }
 
-type CreateTransactionInput = Omit<Transaction, 'id' | 'createdAt'>
-
 export const TransactionsContext = createContext({} as TransactionsContextType)
 
-export function TransactionsProvider({children}: TransactionsContextProps) {
+export function TransactionsProvider({ children }: TransactionsContextProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
   async function fetchTransaction(query?: string) {
@@ -32,8 +32,8 @@ export function TransactionsProvider({children}: TransactionsContextProps) {
       params: {
         _sort: 'createdAt',
         _order: 'desc',
-        q: query
-      }
+        q: query,
+      },
     })
 
     setTransactions(response.data)
@@ -50,17 +50,19 @@ export function TransactionsProvider({children}: TransactionsContextProps) {
       createdAt: new Date(),
     })
 
-    setTransactions(state => [response.data, ...state])
+    setTransactions((state) => [response.data, ...state])
   }
 
-  useEffect(() => { fetchTransaction() },[])
+  useEffect(() => {
+    fetchTransaction()
+  }, [])
 
-  return(
-    <TransactionsContext.Provider 
+  return (
+    <TransactionsContext.Provider
       value={{
-        transactions, 
-        fetchTransaction, 
-        createTransaction
+        transactions,
+        fetchTransaction,
+        createTransaction,
       }}
     >
       {children}
